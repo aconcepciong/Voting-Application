@@ -42,14 +42,17 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.label_validation.setStyleSheet("")  # Text color reset for successful validation
         self.label_validation.setText(f"Voter {voter_id} has voted for candidate: {selected_candidate}")
 
-        # Check for duplicates stored in a vote file and does not allow for dupe votes
-        with open(self.vote_file, mode='r', newline='') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                if row[0] == voter_id:
-                    self.label_validation.setStyleSheet("color: red;")
-                    self.label_validation.setText("This ID has already voted.")
-                    return
+        # Check for duplicates stored in a vote file and does not allow for dupe votes, added try/except in case file is not already in directory
+        try:
+            with open(self.vote_file, mode='r', newline='') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row[0] == voter_id:
+                        self.label_validation.setStyleSheet("color: red;")
+                        self.label_validation.setText("This ID has already voted.")
+                        return
+        except FileNotFoundError:
+            pass # File not found in case no one has voted yet
 
         # if it passes the above check, the file opens in appended mode and vote info is appended
         with open(self.vote_file, mode='a', newline='') as file:
