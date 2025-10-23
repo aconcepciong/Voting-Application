@@ -13,6 +13,6 @@ The application provides a user-friendly interface for voters to securely submit
 
 
 ## Technologies Used
-**Python 3.x**  
-**PyQt6**  
-**CSV module**
+Python
+PyQt6
+CSV module
